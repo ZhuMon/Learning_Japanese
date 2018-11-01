@@ -14,9 +14,9 @@
     ```
     pip install selenium
     ```
-    | 若是將selenium安裝到python2，可以將/usr/bin/local/python2.x裡的dependency複製到python3.x
+     > 若是將selenium安裝到python2，可以將/usr/bin/local/python2.x裡的dependency複製到python3.x
     + chromedriver
-    | 記得在jp_listen.py裡，更改chromedriver存放的位置（改成你自己的資料夾）
+     > 記得在jp_listen.py裡，更改chromedriver存放的位置（改成你自己的資料夾）
   * Usage:
     ```bash
     python3 jp_listen.py
