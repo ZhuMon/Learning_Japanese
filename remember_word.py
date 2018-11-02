@@ -1,4 +1,5 @@
 import random
+import jp_listen
 
 infile = open('words', 'r')
 
@@ -15,10 +16,13 @@ for i in range(0, len(line_list)):
 
 
 mode = input("Which mode? (選擇題(a) 問答題(b)) ")
-q_num = 10 # question number
+q_num = input("How many questions? ") # question number
+
 if mode is 'a':
     t_num = 0; # true number
     wrong_ans = []
+
+    driver = jp_listen.openweb()
 
     for i in range(0, q_num):
         num = random.randint(0, len(all_word_list)-1)
@@ -65,20 +69,22 @@ if mode is 'a':
         if int(feedback)-1 == ans:
             t_num = t_num + 1
             print("True")
+            jp_listen.speak(driver, all_word_list[num][0], False)
             print("----------------")
         else:
             print("False")
             print("Ans is " + all_word_list[num][another])
+            jp_listen.speak(driver, all_word_list[num][0], False)
             wrong_ans.append(num)
             print("----------------")
 
     print("Score: " + str(t_num) + '/' + str(q_num))
     if t_num != q_num:
         print("Wrong answer: ")
-        for i in range(0, 10-t_num):
+        for i in range(0, q_num-t_num):
             num = wrong_ans.pop(0)
             print(all_word_list[num][0] + '\t' + all_word_list[num][1])
-    
+    driver.quit()
 
 elif mode is 'b':
     for i in range(0, 10):
