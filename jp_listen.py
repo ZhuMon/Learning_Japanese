@@ -52,6 +52,7 @@ def speak(driver, data, again):
     time.sleep(1)
     element = driver.find_element_by_id("gt-src-listen")
     element.click()
+    time.sleep(2)
 
     if again:
         for i in range(0,3):
