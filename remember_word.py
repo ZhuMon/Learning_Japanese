@@ -1,5 +1,6 @@
 import random
 import jp_listen
+import ReuseChrome
 
 infile = open('words', 'r')
 
@@ -18,7 +19,19 @@ for i in range(0, len(line_list)):
 mode = input("Which mode? (選擇題(a) 問答題(b)) ")
 q_num = input("How many questions? ") # question number
 
-driver = jp_listen.openweb()
+try:
+    web_id = open('id', 'r')
+    executor_url = ''
+    session_id = ''
+    executor_url = web_id.readline().strip()
+    session_id = web_id.readline().strip()
+
+    if executor_url != '' and session_id != '':
+        driver = ReuseChrome.ReuseChrome(command_executor=executor_url, session_id=session_id)
+    else:
+        driver = jp_listen.openweb()
+except FileNotFoundError:
+    driver = jp_listen.openweb()
 
 if mode is 'a':
     t_num = 0; # true number
@@ -126,6 +139,12 @@ elif mode is 'b':
                 print(all_word_list[num][0] + '\t' + all_word_list[num][1])
             
 
-
-
-driver.quit()
+cont_web = input("Do you continue to learn? Yes(y)/No(n) ")
+web_id_w = open('id', 'w')
+if cont_web is 'y':
+    web_id_w.write(driver.command_executor._url+'\n')
+    web_id_w.write(driver.session_id + '\n')
+    web_id_w.close()
+    #del driver
+else:
+    driver.quit()
