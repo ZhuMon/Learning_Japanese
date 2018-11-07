@@ -32,21 +32,24 @@
    + ```ReuseChrome```
  * Usage:
    ```bash
-   python3 remember_word.py
+   python3 remember_word.py [FileName]
    ```
- * 將```words```裡的單字取出，以選擇題或是問答題來記憶單字
+ * 將```[FileName]```裡的單字取出，以選擇題或是問答題來記憶單字
+ * ```[FileName]``` 預設為 ```words```
  
 ---
 ## data_record
   * Usage:
     ```bash
-    python3 data_record.py
+    python3 data_record.py [FileName]
     ```
   * 輸入要儲存什麼類型（words/phases）
   * 輸入要儲存多少個
   * 儲存：
-    * 儲存單字到```words```
+    * 儲存單字到```[FileName]```
       + 以 日文\<Tab\>中文 方式，輸入
-    * 儲存片語到```phases```
+      + ```[FileName]``` 預設為 ```words```
+    * 儲存片語到```[FileName]```
       + 以 片語(無漢字)\<Tab\>片語(有漢字) 方式，輸入
+      + ```[FileName]``` 預設為 ```phrases```
 

@@ -1,8 +1,12 @@
 import random
 import jp_listen
 import ReuseChrome
+import sys
 
-infile = open('words', 'r')
+if len(sys.argv) == 2:
+    infile = open(sys.argv[1], 'r')
+else:
+    infile = open('words', 'r')
 
 word_list = []
 line_list = []
