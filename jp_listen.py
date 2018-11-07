@@ -42,7 +42,7 @@ def inputdata():
 	, "ヨーロッパ", "パイロット", "ロッカー"]
     return katakana
 
-def speak(driver, data, again):
+def speak(driver, data, again, sleep_time):
     la_ja = driver.find_element_by_id("sugg-item-ja")
     la_ja.click()
     word = driver.find_element_by_name("text") ##輸入要翻譯的
@@ -52,7 +52,7 @@ def speak(driver, data, again):
     time.sleep(1)
     element = driver.find_element_by_id("gt-src-listen")
     element.click()
-    time.sleep(2)
+    time.sleep(sleep_time)
 
     if again:
         for i in range(0,3):
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     data = inputdata()
     for i in range(0, len(data)-1):
         data_to_speak = data[random.randint(0, len(data))]
-        speak(driver, data_to_speak, True)
+        speak(driver, data_to_speak, True, 1)
 
 #ActionChain for input
 

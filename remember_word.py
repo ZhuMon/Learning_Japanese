@@ -83,12 +83,12 @@ if mode is 'a':
         if int(feedback)-1 == ans:
             t_num = t_num + 1
             print("\n   True")
-            jp_listen.speak(driver, all_word_list[num][0], False)
+            jp_listen.speak(driver, all_word_list[num][0], False, 2)
             print("----------------")
         else:
             print("\n   False")
             print("   Ans is " + all_word_list[num][another])
-            jp_listen.speak(driver, all_word_list[num][0], False)
+            jp_listen.speak(driver, all_word_list[num][0], False, 2)
             wrong_ans.append(num)
             print("----------------")
 
@@ -110,7 +110,7 @@ elif mode is 'b':
             print(str(i+1) + ". " + all_word_list[num][ch_or_jp])
             input()
             print(all_word_list[num][another])
-            jp_listen.speak(driver, all_word_list[num][0], False)
+            jp_listen.speak(driver, all_word_list[num][0], False, 2)
             print("----------------")
 
     elif wk_mode is 'k':
@@ -128,7 +128,7 @@ elif mode is 'b':
                 wrong_ans.append(num)
                 print("   Ans : " + all_word_list[num][0])
             
-            jp_listen.speak(driver, all_word_list[num][0], False)
+            jp_listen.speak(driver, all_word_list[num][0], False, 2)
             print("----------------")
 
         print("Score: " + str(t_num) + '/' + q_num)
