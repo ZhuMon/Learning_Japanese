@@ -13,4 +13,8 @@ if kind is 'w':
 elif kind is 'p':
     file = open('phrase', 'a')
 
+    print("片語（無漢字） 中文 片語（有漢字）")
 
+    for i in range(0, int(num)):
+        in_data = input()
+        file.write(in_data+'\n')
