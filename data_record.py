@@ -11,7 +11,7 @@ if kind is 'w':
         file.write(in_data+'\n')
 
 elif kind is 'p':
-    file = open('phrase', 'a')
+    file = open('phrases', 'a')
 
     print("片語（無漢字） 中文 片語（有漢字）")
 
