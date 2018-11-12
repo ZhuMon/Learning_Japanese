@@ -38,6 +38,17 @@
  * ```[FileName]``` 預設為 ```words```
  
 ---
+## remember_phrase
+ * Dependencies:
+   + ```jp_listen```
+   + ```ReuseChrome```
+ * Usage:
+   ```bash
+   python3 remember_phrase.py           
+   ```
+ * 將```[phrases]```裡的片語取出，以選擇題或是問答題來記憶片語
+
+---
 ## data_record
   * Usage:
     ```bash
