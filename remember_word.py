@@ -2,26 +2,43 @@ import random
 import jp_listen
 import ReuseChrome
 import sys
+import json
+
+word_key = ['jp', 'ch', 'ks']
 
 if len(sys.argv) == 2:
     infile = open(sys.argv[1], 'r')
 else:
-    infile = open('words', 'r')
+    infile = open('test', 'r')
+    #infile = open('words', 'r')
 
+"""
 word_list = []
 line_list = []
 all_word_list = []
+"""
 
+all_word_list = []
+file_data = infile.readline()
+while file_data :
+    json_data = json.loads(file_data)
+    all_word_list.append(json_data)
+    file_data = infile.readline()
+
+
+"""
 content = infile.read()
 line_list = content.splitlines(False)
 
 for i in range(0, len(line_list)):
-    word_list = line_list[i].split('\t')
+    #word_list = line_list[i].split('\t')
+    
     all_word_list.append(word_list) 
-
+"""
 
 mode = input("Which mode? (選擇題(a) 問答題(b)) ")
 q_num = input("How many questions? ") # question number
+#jp_or_ks = input("which description? (平假名or片假名(jp) 有漢字(ks)) ")
 
 try:
     web_id = open('id', 'r')
@@ -58,28 +75,28 @@ if mode is 'a':
         
         opt = [num, wrong1, wrong2, wrong3]
 
-        ch_or_jp = random.randint(0, 1)
-        another  = 1 - ch_or_jp
+        ch_or_jp = random.randint(0, 2)
+        another  = 0 if ch_or_jp>0 else random.choose([1,2])
 
-        print(str(i+1)+'. '+ all_word_list[num][ch_or_jp])
+        print(str(i+1)+'. '+ all_word_list[num][word_key[ch_or_jp]])
         ans = -1
         which_opt = random.randint(0, 3)
-        print("   (1) " + all_word_list[opt.pop(which_opt)][another]+' ')
+        print("   (1) " + all_word_list[opt.pop(which_opt)][word_key[another]]+' ')
         if ans == -1 and which_opt == 0:
             ans = 0
 
         which_opt = random.randint(0, 2)
-        print("   (2) " + all_word_list[opt.pop(which_opt)][another]+' ')
+        print("   (2) " + all_word_list[opt.pop(which_opt)][word_key[another]]+' ')
         if ans == -1 and which_opt == 0:
             ans = 1
 
         which_opt = random.randint(0, 1)
-        print("   (3) " + all_word_list[opt.pop(which_opt)][another]+' ')
+        print("   (3) " + all_word_list[opt.pop(which_opt)][word_key[another]]+' ')
         if ans == -1 and which_opt == 0:
             ans = 2
 
         which_opt = 0
-        print("   (4) " + all_word_list[opt.pop()][another]+'\n')
+        print("   (4) " + all_word_list[opt.pop()][word_key[another]]+'\n')
         if ans == -1 and which_opt == 0:
             ans = 3
         
@@ -87,11 +104,11 @@ if mode is 'a':
         if int(feedback)-1 == ans:
             t_num = t_num + 1
             print("\n   True")
-            jp_listen.speak(driver, all_word_list[num][0], False, 2)
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
         else:
             print("\n   False")
-            print("   Ans is " + all_word_list[num][another])
+            print("   Ans is " + all_word_list[num][word_key[another]])
             jp_listen.speak(driver, all_word_list[num][0], False, 2)
             wrong_ans.append(num)
             print("----------------")
@@ -108,13 +125,15 @@ elif mode is 'b':
     if wk_mode is 'w':
         for i in range(0, int(q_num)-1 ):
             num = random.randint(0, len(all_word_list)-1)
-            ch_or_jp = random.randint(0, 1)
-            another  = 1 - ch_or_jp
+            ch_or_jp = random.randint(0, 2)
+            another  = 0 if ch_or_jp>0 else random.randint(0,1)
             
-            print(str(i+1) + ". " + all_word_list[num][ch_or_jp])
+            print(str(i+1) + ". " + all_word_list[num][word_key[ch_or_jp]])
             input()
-            print(all_word_list[num][another])
-            jp_listen.speak(driver, all_word_list[num][0], False, 2)
+            print(all_word_list[num]['jp'])
+            print(all_word_list[num]['ks'] + all_word_list[num]['ch'])
+
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
 
     elif wk_mode is 'k':
@@ -122,17 +141,18 @@ elif mode is 'b':
         wrong_ans = []
         for i in range(0, int(q_num) ):
             num = random.randint(0, len(all_word_list)-1)
-            print(str(i+1) + ". " + all_word_list[num][1])
+            print(str(i+1) + ". " + all_word_list[num]['ch'])
             feedback = input("   日文： ")
-            if feedback == all_word_list[num][0]:
+            if feedback == all_word_list[num]['jp'] or feedback == all_word_list[num]['ks']:
                 print("\n   True")
                 t_num = t_num + 1
             else:
                 print("\n   False")
                 wrong_ans.append(num)
-                print("   Ans : " + all_word_list[num][0])
+                print("   Ans : " + all_word_list[num]['jp'])
+                print(all_word_list[num]['ks'])
             
-            jp_listen.speak(driver, all_word_list[num][0], False, 2)
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
 
         print("Score: " + str(t_num) + '/' + q_num)
@@ -140,7 +160,7 @@ elif mode is 'b':
             print("Wrong answer: ")
             for i in range(0, int(q_num)-t_num):
                 num = wrong_ans.pop(0)
-                print(all_word_list[num][0] + '\t' + all_word_list[num][1])
+                print(all_word_list[num]['jp'] + '\t' + all_word_list[num]['ks'] + '\t' + all_word_list[num]['ch'])
             
 
 cont_web = input("Do you continue to learn? Yes(y)/No(n) ")
