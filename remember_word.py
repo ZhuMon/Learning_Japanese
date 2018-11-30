@@ -76,7 +76,7 @@ if mode is 'a':
         opt = [num, wrong1, wrong2, wrong3]
 
         ch_or_jp = random.randint(0, 2)
-        another  = 0 if ch_or_jp>0 else random.choose([1,2])
+        another  = 0 if ch_or_jp>0 else random.choice([1,2])
 
         print(str(i+1)+'. '+ all_word_list[num][word_key[ch_or_jp]])
         ans = -1
