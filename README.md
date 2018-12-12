@@ -1,11 +1,14 @@
 # Learning_Japanese
 ## System
- * macOS v10.13.6
- * zsh v5.6.2
- * Google Chrome v70.0.3538.110 
- * python 3.6
- * pip3.6 v18.1
- 
+* macOS v10.13.6
+* zsh v5.6.2
+* python 3.6
+* pip3.6 v18.1
+* Google Chrome v70.0.3538.110 
+* Chrome Extention:
+    * [Keyboard Shortcuts for Google Translate v2.4.1.0](https://chrome.google.com/webstore/detail/keyboard-shortcuts-for-go/akjhnbnjanndggbcegmdggfjjclohjpo)
+
+---
 ## fifty_symbol
   * Usage:
     ```bash
