@@ -1,4 +1,11 @@
 # Learning_Japanese
+## System
+ * macOS v10.13.6
+ * zsh v5.6.2
+ * Google Chrome v70.0.3538.110 
+ * python 3.6
+ * pip3.6 v18.1
+ 
 ## fifty_symbol
   * Usage:
     ```bash
@@ -6,17 +13,29 @@
     ```
   * 隨機產生五個日文的五十音
   * Randomly produce 5 different symbols in Romalization
-
+---
+## time
+  * Usage:
+    ```bash
+    python3 time.py
+    ```
+  * 隨機產生時間(ex: 12:12)，在按下enter後，會顯示時間的平假名
+  * Randomly produce time(ex: 12:12).
+  * After push ENTER, it will show the japanese of the time
 ---
 ## jp_listen
   * Dependencies:
     + selenium
-    ```
-    pip install selenium
-    ```
-     > 若是將selenium安裝到python2，可以將/usr/bin/local/python2.x裡的dependency複製到python3.x
+      ```
+      pip3 install selenium
+      ```
     + chromedriver
-     > 記得在jp_listen.py裡，更改chromedriver存放的位置（改成你自己的資料夾）
+    + 設定環境變數
+      ```
+      cd Learning_Japanese
+      echo "export CHROME_DRIVER_PATH=\"$PWD\"" >> ~/.zshrc
+      echo "export CHROME_USER_DATA=\"$OLDPWD/Library/Application Support/Google/Chrome\"" >> ~/.zshrc
+      ```
   * Usage:
     ```bash
     python3 jp_listen.py
