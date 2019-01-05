@@ -76,7 +76,7 @@ if mode is 'a':
         opt = [num, wrong1, wrong2, wrong3]
 
         ch_or_jp = random.randint(0, 2)
-        another  = 0 if ch_or_jp>0 else random.choice([1,2])
+        another  = 0 if ch_or_jp>0 else 1
 
         print(str(i+1)+'. '+ all_word_list[num][word_key[ch_or_jp]])
         ans = -1
@@ -126,7 +126,7 @@ elif mode is 'b':
         for i in range(0, int(q_num)-1 ):
             num = random.randint(0, len(all_word_list)-1)
             ch_or_jp = random.randint(0, 2)
-            another  = 0 if ch_or_jp>0 else random.randint(0,1)
+            another  = 0 if ch_or_jp>0 else 1
             
             print(str(i+1) + ". " + all_word_list[num][word_key[ch_or_jp]])
             input()
@@ -141,16 +141,32 @@ elif mode is 'b':
         wrong_ans = []
         for i in range(0, int(q_num) ):
             num = random.randint(0, len(all_word_list)-1)
-            print(str(i+1) + ". " + all_word_list[num]['ch'])
-            feedback = input("   日文： ")
-            if feedback == all_word_list[num]['jp'] or feedback == all_word_list[num]['ks']:
-                print("\n   True")
-                t_num = t_num + 1
-            else:
-                print("\n   False")
-                wrong_ans.append(num)
-                print("   Ans : " + all_word_list[num]['jp'])
-                print(all_word_list[num]['ks'])
+            ch_or_jp = random.randint(0, 2)
+            another  = 0 if ch_or_jp>0 else 1
+
+            if ch_or_jp == 1:
+                print(str(i+1) + ". " + all_word_list[num]['ch'])
+                feedback = input("   日文： ")
+                if feedback == all_word_list[num]['jp'] or feedback == all_word_list[num]['ks']:
+                    print("\n   True")
+                    t_num = t_num + 1
+                else:
+                    print("\n   False")
+                    wrong_ans.append(num)
+                    print("   Ans : " + all_word_list[num]['jp'])
+
+            elif ch_or_jp == 2:
+                print(str(i+1) + ". " + all_word_list[num]['ks'])
+
+                feedback = input("   平假名： ")
+                if feedback == all_word_list[num]['jp'] or feedback == all_word_list[num]['ks']:
+                    print("\n   True")
+                    t_num = t_num + 1
+                else:
+                    print("\n   False")
+                    wrong_ans.append(num)
+                    print("   Ans : " + all_word_list[num]['jp'])
+                    print(all_word_list[num]['ks'])
             
             jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
