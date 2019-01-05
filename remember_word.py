@@ -5,7 +5,7 @@ import sys
 import json
 import psycopg2
 
-conn = psycopg2.connect("jp_lr", sslmode='require')
+conn = psycopg2.connect(database="jp_lr", sslmode='require')
 cur = conn.cursor()
 
 word_key = ['jp', 'ch', 'ks', 'n']
@@ -25,7 +25,12 @@ all_word_list = []
 
 cur.execute("SELECT * from "+sys.argv[1])
 
-all_word_list = cur.fetchall()
+tmp = cur.fetchall()
+all_word_list = []
+
+for row in tmp:
+    all_word_list.append([row[0].strip(), row[1].strip(), row[2].strip(), row[3]])
+
 """
 file_data = infile.readline()
 while file_data :
@@ -184,13 +189,13 @@ elif mode is 'b':
                     print("\n   True")
                     t_num = t_num + 1
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num + 1 where jp='" + all_word_list[num][0]+"'")
-                    cur.commit()
+                    conn.commit()
                 else:
                     print("\n   False")
                     wrong_ans.append(num)
                     print("   Ans : " + all_word_list[num][0])
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
-                    cur.commit()
+                    conn.commit()
                     
 
             elif ch_or_jp == 2:
@@ -204,14 +209,14 @@ elif mode is 'b':
                     print("\n   True")
                     t_num = t_num + 1
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num + 1 where jp='" + all_word_list[num][0]+"'")
-                    cur.commit()
+                    conn.commit()
                 else:
                     print("\n   False")
                     wrong_ans.append(num)
                     print("   Ans : " + all_word_list[num][0])
                     print("         " + all_word_list[num][2])
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
-                    cur.commit()
+                    conn.commit()
             
             if ord(all_word_list[num][2][0]) > 128:#if ks isn't english
                 jp_listen.speak(driver, all_word_list[num][2], False, 2)
