@@ -12,7 +12,7 @@ def openweb():
     dri_Opt = webdriver.ChromeOptions()
     dri_Opt.add_argument(r"--user-data-dir="+user_data_dir)
     driver = webdriver.Chrome(driver_path, 0, dri_Opt)
-    driver.get("https://translate.google.com.tw/")
+    driver.get("https://translate.google.com.tw/#view=home&op=translate&sl=ja&tl=zh-TW")
     return driver
 
 def inputdata():
@@ -48,11 +48,17 @@ def inputdata():
     return katakana
 
 def speak(driver, data, again, sleep_time):
-    la_ja = driver.find_element_by_id("sugg-item-ja")
-    la_ja.click()
+    #la_ja = driver.find_element_by_id("sugg-item-ja")
+    #la_ja.click()
+    #ActionChains(driver).key_down(Keys.LEFT_CONTROL).send_keys('4').perform()
+    #ActionChains(driver).key_up(Keys.LEFT_CONTROL).perform()
+    
     word = driver.find_element_by_id("source") ##輸入要翻譯的
     #word.clear()
-    word.send_keys(data);
+    ActionChains(driver).key_down(Keys.LEFT_CONTROL).send_keys('d').perform()
+    ActionChains(driver).key_up(Keys.LEFT_CONTROL).perform()
+
+    word.send_keys(data)
 
     #word.send_keys(katakana[i]);
     ActionChains(driver).send_keys(Keys.ENTER).perform()
