@@ -4,7 +4,7 @@ import ReuseChrome
 import sys
 import json
 
-word_key = ['jp', 'ch', 'ks']
+word_key = ['jp', 'ch', 'ks', 'n']
 
 if len(sys.argv) == 2:
     infile = open(sys.argv[1], 'r')
@@ -147,8 +147,10 @@ elif mode is 'b':
         wrong_ans = []
         for i in range(0, int(q_num) ):
             num = random.randint(0, len(all_word_list)-1)
-            ch_or_jp = random.randint(0, 2)
-            another  = 0 if ch_or_jp>0 else 1
+            ch_or_jp = random.randint(1, 2)
+
+            if ch_or_jp == 2 and all_word_list[num]['jp'] == all_word_list[num]['ks']:
+                ch_or_jp = 1
 
             if ch_or_jp == 1:
                 print(str(i+1) + ". " + all_word_list[num]['ch'])
@@ -164,15 +166,18 @@ elif mode is 'b':
             elif ch_or_jp == 2:
                 print(str(i+1) + ". " + all_word_list[num]['ks'])
 
-                feedback = input("   平假名： ")
-                if feedback == all_word_list[num]['jp'] or feedback == all_word_list[num]['ks']:
+                if ord(all_word_list[num]['ks'][0]) < 128:
+                    feedback = input("   片假名： ")
+                else:
+                    feedback = input("   平假名： ")
+                if feedback == all_word_list[num]['jp']:
                     print("\n   True")
                     t_num = t_num + 1
                 else:
                     print("\n   False")
                     wrong_ans.append(num)
                     print("   Ans : " + all_word_list[num]['jp'])
-                    print(all_word_list[num]['ks'])
+                    print("         " + all_word_list[num]['ks'])
             
             if ord(all_word_list[num]['ks'][0]) > 128:#if ks isn't english
                 jp_listen.speak(driver, all_word_list[num]['ks'], False, 2)
@@ -185,7 +190,18 @@ elif mode is 'b':
             print("Wrong answer: ")
             for i in range(0, int(q_num)-t_num):
                 num = wrong_ans.pop(0)
-                print(all_word_list[num]['jp'] + '\t' + all_word_list[num]['ks'] + '\t' + all_word_list[num]['ch'])
+                
+                out1 = all_word_list[num]['jp']
+                if len(out1) > 3:
+                    out1 = out1 + '\t'
+                else:
+                    out1 = out1 + '\t\t'
+                out2 = all_word_list[num]['ks']
+                if len(out2) > 3:
+                    out2 = out2 + '\t'
+                else:
+                    out2 = out2 + '\t\t'
+                print(out1 + out2 + all_word_list[num]['ch'])
             
 
 cont_web = input("Do you continue to learn? Yes(y)/No(n) ")
@@ -197,3 +213,4 @@ if cont_web is 'y':
     #del driver
 else:
     driver.quit()
+ 
