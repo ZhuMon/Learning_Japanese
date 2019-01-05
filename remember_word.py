@@ -104,21 +104,24 @@ if mode is 'a':
         if int(feedback)-1 == ans:
             t_num = t_num + 1
             print("\n   True")
-            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
         else:
             print("\n   False")
             print("   Ans is " + all_word_list[num][word_key[another]])
-            jp_listen.speak(driver, all_word_list[num][0], False, 2)
             wrong_ans.append(num)
             print("----------------")
+
+        if ord(all_word_list[num]['ks'][0]) > 128:#if ks isn't english
+            jp_listen.speak(driver, all_word_list[num]['ks'], False, 2)
+        else:
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
 
     print("Score: " + str(t_num) + '/' + q_num)
     if t_num != int(q_num):
         print("Wrong answer: ")
         for i in range(0, int(q_num)-t_num):
             num = wrong_ans.pop(0)
-            print(all_word_list[num][0] + '\t' + all_word_list[num][1])
+            print(all_word_list[num]['jp'], '\t', all_word_list[num]['ch'], '\t', all_word_list[num]['ks'])
 
 elif mode is 'b':
     wk_mode = input("Write or key in? (write(w) key in(k)) ")
@@ -131,9 +134,12 @@ elif mode is 'b':
             print(str(i+1) + ". " + all_word_list[num][word_key[ch_or_jp]])
             input()
             print(all_word_list[num]['jp'])
-            print(all_word_list[num]['ks'] + all_word_list[num]['ch'])
+            print(all_word_list[num]['ks'] +'\t' +all_word_list[num]['ch'])
 
-            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
+            if ord(all_word_list[num]['ks'][0]) > 128:#if ks isn't english
+                jp_listen.speak(driver, all_word_list[num]['ks'], False, 2)
+            else:
+                jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
 
     elif wk_mode is 'k':
@@ -168,7 +174,10 @@ elif mode is 'b':
                     print("   Ans : " + all_word_list[num]['jp'])
                     print(all_word_list[num]['ks'])
             
-            jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
+            if ord(all_word_list[num]['ks'][0]) > 128:#if ks isn't english
+                jp_listen.speak(driver, all_word_list[num]['ks'], False, 2)
+            else:
+                jp_listen.speak(driver, all_word_list[num]['jp'], False, 2)
             print("----------------")
 
         print("Score: " + str(t_num) + '/' + q_num)
