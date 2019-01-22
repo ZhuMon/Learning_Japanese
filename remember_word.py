@@ -22,14 +22,13 @@ word_list = []
 line_list = []
 all_word_list = []
 """
+if len(sys.argv) == 2:
+    table_name = input("Please enter the table name ")
+    cur.execute("SELECT * from "+table_name)
+else:
+    cur.execute("SELECT * from "+sys.argv[1])
 
-cur.execute("SELECT * from "+sys.argv[1])
-
-tmp = cur.fetchall()
-all_word_list = []
-
-for row in tmp:
-    all_word_list.append([row[0].strip(), row[1].strip(), row[2].strip(), row[3]])
+all_word_list = cur.fetchall()
 
 """
 file_data = infile.readline()
@@ -154,7 +153,7 @@ elif mode is 'b':
     if wk_mode is 'w':
         for i in range(0, int(q_num)-1 ):
             num = random.randint(0, len(all_word_list)-1)
-            while all_word_list[num][3] > 5:
+            while all_word_list[num][3] > 4:
                 num = random.randint(0, len(all_word_list)-1)
             ch_or_jp = random.randint(0, 2)
             another  = 0 if ch_or_jp>0 else 1
@@ -175,7 +174,7 @@ elif mode is 'b':
         wrong_ans = []
         for i in range(0, int(q_num) ):
             num = random.randint(0, len(all_word_list)-1)
-            while all_word_list[num][3] > 5:
+            while all_word_list[num][3] > 4:
                 num = random.randint(0, len(all_word_list)-1)
             ch_or_jp = random.randint(1, 2)
 
