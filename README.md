@@ -7,7 +7,7 @@
 * Google Chrome v70.0.3538.110 
 * Chrome Extention:
     * [Keyboard Shortcuts for Google Translate v2.4.1.0](https://chrome.google.com/webstore/detail/keyboard-shortcuts-for-go/akjhnbnjanndggbcegmdggfjjclohjpo)
-
+* postgreSQL 11.0
 ---
 ## fifty_symbol
   * Usage:
@@ -54,10 +54,9 @@
    + ```ReuseChrome```
  * Usage:
    ```bash
-   python3 remember_word.py [FileName]
+   python3 remember_word.py [TableName]
    ```
- * 將```[FileName]```裡的單字取出，以選擇題或是問答題來記憶單字
- * ```[FileName]``` 預設為 ```words```
+ * 從PostgreSQL 將```[TableName]```裡的單字取出，以選擇題或是問答題來記憶單字
  
 ---
 ## remember_phrase
@@ -85,4 +84,18 @@
     * 儲存片語到```[FileName]```
       + 以 片語(無漢字)\<Tab\>片語(有漢字) 方式，輸入
       + ```[FileName]``` 預設為 ```phrases```
+
+---
+## data_record_db
+  * Usage:
+    ```bash
+    python3 data_record_db.py [TableName]
+    ```
+  * 輸入要儲存什麼類型（words/phases）
+  * 輸入要儲存多少個
+  * 儲存：
+    * 儲存單字到 ```[TableName]```
+      + 以 日文\<Tab\>中文\<Tab\>漢字\<Tab\>記住程度\<Tab\>順序 方式，輸入
+      + 記住程度最高為5，當記住程度為5時，將不會在remember_word裡出現
+      
 
