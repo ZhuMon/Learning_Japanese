@@ -10,9 +10,7 @@ driver_path = os.environ['CHROME_DRIVER_PATH']
 
 def openweb():
     dri_Opt = webdriver.ChromeOptions()
-    dri_Opt.add_extension('Keyboard-Shortcuts-for-Google-Translate_v2.4.4.0.crx')
-    prefs = {"profile.default_content_setting_values.notifications" : 2}
-    dri_Opt.add_experimental_option("prefs",prefs)
+    dri_Opt.add_argument(r"--user-data-dir="+user_data_dir)
     driver = webdriver.Chrome(driver_path, 0, dri_Opt)
     driver.get("https://translate.google.com.tw/#view=home&op=translate&sl=ja&tl=zh-TW")
     return driver
