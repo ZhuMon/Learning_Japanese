@@ -11,30 +11,37 @@ obj_list = cur.fetchall()
 cur.execute("SELECT * FROM kazo")
 kazo_list = cur.fetchall()
 
-num = random.randint(1, 11)
 
+q = input("How many? ")
 
-n = random.randint(0, len(obj_list)-1)
+for i in range(0, int(q)):
+    num = random.randint(1, 11)
+    n = random.randint(0, len(obj_list)-1)
 
-ans_kazo_list = []
-for kazo in kazo_list:
-    if kazo[1] == obj_list[n][1]:
-        ans_kazo_list.append(kazo)
+    if i % 2 == 0:
+        num = random.choice([1, 3, 6, 8, 10])
 
-ans_kazo_list.sort()
+    ans_kazo_list = []
+    for kazo in kazo_list:
+        if kazo[1] == obj_list[n][1]:
+            ans_kazo_list.append(kazo)
 
-print(obj_list[n][0]," ",n)
+    ans_kazo_list.sort()
+    
+    print(i+1,". ",obj_list[n][0]," ",num)
 
-ans = input()
+    ans = input()
 
-
-if ans == ans_kazo_list[n-1][2]:
-    print("True")
-else:
-    print("False")
-    print("The answer is: " + ans_kazo_list[n-1][2])
-
-
+    print()
+    print("------------")
+    if ans == ans_kazo_list[num-1][2]:
+        print("True")
+    else:
+        print("False")
+        print("The answer is: " + ans_kazo_list[num-1][2])
+    
+    print("------------")
+    print()
 
 conn.close()
 
