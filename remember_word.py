@@ -22,7 +22,7 @@ word_list = []
 line_list = []
 all_word_list = []
 """
-if len(sys.argv) == 2:
+if len(sys.argv) < 2:
     table_name = input("Please enter the table name ")
     cur.execute("SELECT * from "+table_name)
 else:
@@ -73,7 +73,7 @@ if mode is 'a':
 
     for i in range(0, int(q_num)):
         num = random.randint(0, len(all_word_list)-1)
-        while all_word_list[num][3] > 5:
+        while all_word_list[num][3] >= 5:
             num = random.randint(0, len(all_word_list)-1)
 
         wrong1 = random.randint(0, len(all_word_list)-1)
