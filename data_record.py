@@ -5,6 +5,8 @@ kind = input("Which kind of data? (單字(w) 慣用語(p)) ")
 num  = input("How many? ")
 
 if kind is 'w':
+    print("Please use data_record_db.py")
+    """
     if len(sys.argv) == 2:
         file = open(sys.argv[1], 'a')
     else:
@@ -19,10 +21,11 @@ if kind is 'w':
         mydict['jp'] = in_list[0]
         mydict['ch'] = in_list[1]
         mydict['ks'] = in_list[2]
+        mydict['n'] = int(in_list[3])
         myjson = json.dumps(mydict)
         file.write(myjson)
         file.write('\n')
-
+    """
 elif kind is 'p':
     if len(sys.argv) == 2:
         file = open(sys.argv[1], 'a')
