@@ -19,7 +19,7 @@ for data in cur.fetchall():
         col.append(data[0])
         types.append(data[1])
 
-print(types)
+#print(types)
 num = input("How many? ")
 print("Set what? ", col) 
 s = input()
@@ -32,7 +32,7 @@ while s not in col:
         print(col)
         s = input()
 
-#print("index ", s)
+print("index ", s)
 for i in range(0, int(num)):
     in_data = input()
     in_list = in_data.split()
