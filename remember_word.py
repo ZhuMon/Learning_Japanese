@@ -193,8 +193,8 @@ elif mode is 'b':
                     print("\n   False")
                     wrong_ans.append(num)
                     print("   Ans : " + all_word_list[num][0])
-                    cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
-                    conn.commit()
+                    #cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
+                    #conn.commit()
                     
 
             elif ch_or_jp == 2:
