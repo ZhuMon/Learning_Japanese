@@ -29,7 +29,7 @@ while file_data:
 mode = input("Which mode? (選擇題(a) 問答題(b)) ")
 q_num = input("How many questions? ") # question number
 
-"""
+
 try:
     web_id = open('id', 'r')
     executor_url = ''
@@ -43,7 +43,7 @@ try:
         driver = jp_listen.openweb()
 except FileNotFoundError:
     driver = jp_listen.openweb()
-"""
+
 if mode is 'a':
     t_num = 0; # true number
     wrong_ans = []
@@ -194,22 +194,22 @@ if mode is 'a':
         if int(feedback)-1 == ans:
             t_num = t_num + 1
             print("\n   True")
-            #jp_listen.speak(driver, all_word_list[num]['jp'], False, 4)
-            #if an_ttt > 5:
-            #    jp_listen.speak(driver, all_word_list[num]['aw_jp'], False, 4)
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 4)
+            if an_ttt > 5:
+                jp_listen.speak(driver, all_word_list[num]['aw_jp'], False, 4)
 
             print("----------------")
         else:
             print("\n   False")
             print("   Ans is " + all_word_list[num][word_key[an_ttt]])
-            #jp_listen.speak(driver, all_word_list[num]['jp'], False, 4)
-            #if an_ttt > 4:
-            #    jp_listen.speak(driver, all_word_list[num]['aw_jp'], False, 4)
+            jp_listen.speak(driver, all_word_list[num]['jp'], False, 4)
+            if an_ttt > 4:
+                jp_listen.speak(driver, all_word_list[num]['aw_jp'], False, 4)
 
             # swap
             if type_to_test > 4:
                 a_wrong_ans = [num, an_ttt, type_to_test]
-            elif type_to_test == 1 and (an_ttt == 3 or an_ttt = 0):
+            elif type_to_test == 1 and (an_ttt == 3 or an_ttt == 0):
                 a_wrong_ans = [num, an_ttt, type_to_test]
             else: 
                 a_wrong_ans = [num, type_to_test, an_ttt]
@@ -263,7 +263,7 @@ elif mode is 'b':
                 num = wrong_ans.pop(0)
                 print(all_word_list[num][0] + '\t' + all_word_list[num][1])
             
-"""
+
 cont_web = input("Do you continue to learn? Yes(y)/No(n) ")
 web_id_w = open('id', 'w')
 if cont_web is 'y':
@@ -273,4 +273,4 @@ if cont_web is 'y':
     #del driver
 else:
     driver.quit()
-"""
+
