@@ -174,8 +174,20 @@ elif mode is 'b':
         wrong_ans = []
         for i in range(0, int(q_num) ):
             num = random.randint(0, len(all_word_list)-1)
+            
+            # check whether all word have bean learned
+            larger_treshold_flag = 0
+            for word in all_word_list:
+                if word[3] <= 4:
+                    larger_treshold_flag = 1
+
+            if larger_treshold_flag == 0:
+                q_num = str(i)
+                break
+
             while all_word_list[num][3] > 4:
                 num = random.randint(0, len(all_word_list)-1)
+
             ch_or_jp = random.randint(1, 2)
 
             if ch_or_jp == 2 and all_word_list[num][0] == all_word_list[num][2]:
@@ -187,6 +199,7 @@ elif mode is 'b':
                 if feedback == all_word_list[num][0] or feedback == all_word_list[num][2]:
                     print("\n   True")
                     t_num = t_num + 1
+                    all_word_list[num][3] = all_word_list[num][3] + 1
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num + 1 where jp='" + all_word_list[num][0]+"'")
                     conn.commit()
                 else:
@@ -207,6 +220,7 @@ elif mode is 'b':
                 if feedback == all_word_list[num][0]:
                     print("\n   True")
                     t_num = t_num + 1
+                    all_word_list[num][3] = all_word_list[num][3] + 1
                     cur.execute("UPDATE "+sys.argv[1]+" set num = num + 1 where jp='" + all_word_list[num][0]+"'")
                     conn.commit()
                 else:
@@ -214,7 +228,7 @@ elif mode is 'b':
                     wrong_ans.append(num)
                     print("   Ans : " + all_word_list[num][0])
                     print("         " + all_word_list[num][2])
-                    cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
+                    #cur.execute("UPDATE "+sys.argv[1]+" set num = num - 1 where jp='" + all_word_list[num][0]+"'")
                     conn.commit()
             
             if ord(all_word_list[num][2][0]) > 128:#if ks isn't english
@@ -223,7 +237,12 @@ elif mode is 'b':
                 jp_listen.speak(driver, all_word_list[num][0], False, 2)
             print("----------------")
 
-        print("Score: " + str(t_num) + '/' + q_num)
+        if int(q_num) == 0:
+            print("Already learn everything.")
+            print("Improve treshold or change database.")
+        else:
+            print("Score: " + str(t_num) + '/' + q_num)
+
         if t_num != int(q_num):
             print("Wrong answer: ")
             for i in range(0, int(q_num)-t_num):
