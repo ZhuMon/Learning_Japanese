@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 
-from time import MyTime
+from MyTime import MyTime
 
 class MainConsole(Frame):
     def __init__(self, parent = None):
