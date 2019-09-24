@@ -5,8 +5,8 @@ import sys
 import json
 
 class RememberWord():
-    def __init__(self):
-        self.num_word = 20
+    def __init__(self, num_word = 20):
+        self.num_word = num_word
         None
 
     def start(self, mode, q_num, listen):
