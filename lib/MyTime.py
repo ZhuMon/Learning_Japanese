@@ -15,11 +15,10 @@ class MyTime():
                 hour = random.randint(1, 12)
                 minute = random.randint(0, 59)
 
-                print(str(hour)+":"+str(minute))
-                input()
 
                 out = ""
                 tmp = int(minute/10)
+                
                 if tmp > 1:
                     out = self.minute_l[tmp-1]
                 if tmp >= 1 and minute%10 != 0:
@@ -34,7 +33,7 @@ class MyTime():
                     elif tmp == 0:
                         out = out + self.minute_l[9] + " ぷん"
                         
-                print(self.hour_l[hour-1] + " じ " + out)
+                yield list([str(hour)+":"+str(minute), self.hour_l[hour-1] + " じ " + out])
 
         except KeyboardInterrupt:
             self.state = False
