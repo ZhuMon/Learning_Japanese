@@ -27,6 +27,8 @@ class MainConsole(Frame):
         self.myTime.a_var = StringVar()
         a_entry = Entry(self.time_frame, textvariable=self.myTime.a_var)
 
+        self.myTime.t_a_var = StringVar()
+        a_label = Label(self.time_frame, textvariable=self.myTime.t_a_var)
         
         enter_button = Button(self.time_frame, text = "Enter", command=self.test_time_compare)
         next_button = Button(self.time_frame, text = "Next", command=self.test_time_next)
@@ -35,6 +37,7 @@ class MainConsole(Frame):
         q_label.pack()
         a_entry.pack()
         enter_button.pack()
+        a_label.pack()
         next_button.pack()
 
     def create_menubar(self, level = None):
@@ -66,12 +69,14 @@ class MainConsole(Frame):
         q = r[0]
         self.time_ans = r[1]
         self.myTime.q_var.set(q)
+        self.myTime.t_a_var.set("")
 
     def test_time_compare(self):
-        if self.time_ans == self.myTime.a_var.get():
-            print("True")
+        if self.time_ans.replace(" ","") == self.myTime.a_var.get().replace(" ",""):
+            self.myTime.t_a_var.set("True")
         else:
-            print("False, the answer is ",self.time_ans)
+            self.myTime.t_a_var.set("False, the answer is "+self.time_ans)
+        
         
 
     def test_number(self):
