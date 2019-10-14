@@ -18,27 +18,31 @@ class MainConsole(Frame):
 
     def create_cframe(self):
         self.cframe = Frame(self)
-        ######## time ########
-        self.time_frame = Frame(self.cframe)
-        self.myTime = MyTime()
-        self.myTime.q_var = StringVar()
-        q_label = Label(self.time_frame, textvariable=self.myTime.q_var)
-        
-        self.myTime.a_var = StringVar()
-        a_entry = Entry(self.time_frame, textvariable=self.myTime.a_var)
 
-        self.myTime.t_a_var = StringVar()
-        a_label = Label(self.time_frame, textvariable=self.myTime.t_a_var)
+        ######## keyin frame ########
+        self.key_in_frame = Frame(self.cframe)
+        self.q_var = StringVar()
+        q_label = Label(self.key_in_frame, textvariable=self.q_var)
         
-        enter_button = Button(self.time_frame, text = "Enter", command=self.test_time_compare)
-        next_button = Button(self.time_frame, text = "Next", command=self.test_time_next)
+        self.a_var = StringVar()
+        a_entry = Entry(self.key_in_frame, textvariable=self.a_var)
 
-    
+        self.t_a_var = StringVar()
+        a_label = Label(self.key_in_frame, textvariable=self.t_a_var)
+        
+        enter_button = Button(self.key_in_frame, text = "Enter", command=self.test_compare)
+        next_button = Button(self.key_in_frame, text = "Next", command=self.test_key_in_next)
+
+        
         q_label.pack()
         a_entry.pack()
         enter_button.pack()
         a_label.pack()
         next_button.pack()
+
+        ######## choose frame ########
+        self.choose_frame = Frame(self.cframe)
+        
 
     def create_menubar(self, level = None):
         bar = Frame(self, width=800)
@@ -60,37 +64,51 @@ class MainConsole(Frame):
 
     def test_time(self):
         self.clear_widget(2)
-        self.time_frame.pack()
-        self.test_time_next()
+        self.key_in_frame.pack()
+        self.now_test = MyTime()
+        self.test_key_in_next()
 
-    def test_time_next(self):
-        r = next(self.myTime.start())
-        
-        q = r[0]
-        self.time_ans = r[1]
-        self.myTime.q_var.set(q)
-        self.myTime.t_a_var.set("")
-
-    def test_time_compare(self):
-        if self.time_ans.replace(" ","") == self.myTime.a_var.get().replace(" ",""):
-            self.myTime.t_a_var.set("True")
-        else:
-            self.myTime.t_a_var.set("False, the answer is "+self.time_ans)
         
         
 
     def test_number(self):
-        MyNumber.start()
+        self.key_in_frame.pack()
+        self.now_test = MyNumber()
+        self.test_key_in_next()
 
     def test_50_symbol(self):
-        FiftySymbol.start()
+        self.choose_frame.pack()
+        self.now_test = FiftySymbol()
+        self.test_choose_next()
 
     def test_variable(self):
         None
 
+    def test_key_in_next(self):
+        r = next(self.now_test.start())
+        
+        q = r[0]
+        self.ans = r[1]
+        self.q_var.set(q)
+        self.t_a_var.set("")
+
+    def test_compare(self):
+        if self.ans.replace(" ","") == self.myTime.a_var.get().replace(" ",""):
+            self.t_a_var.set("True")
+        else:
+            self.t_a_var.set("False, the answer is "+self.ans)
+
+    def test_choose_next():
+        [q, self.ans, self.other_ans] = next(self.now_test.start())
+
+        self.q_var.set(q)
+        self.t_a_var.set("")
+        
+        
+
     def clear_widget(self, level = None):
         if level < 2:
-            self.time_frame.pack_forget()
+            self.key_in_frame.pack_forget()
 
     def exit(self):
         self.myTime.stop()

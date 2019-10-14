@@ -11,9 +11,9 @@ class FiftySymbol():
                       "な", "に", "ぬ", "ね", "の",
                       "は", "ひ", "ふ", "へ", "ほ",
                       "ま", "み", "む", "め", "も",
-                      "や", "", "ゆ", "", "よ",
+                      "や",   "", "ゆ",   "", "よ",
                       "ら", "り", "る", "れ", "ろ",
-                      "わ", "ん"]
+                      "わ",   "",   "",   "", "ん"]
         self.state = False
 
     def start(self):
@@ -22,26 +22,33 @@ class FiftySymbol():
             while self.state:
 
                 a = random.randint(0,9)
-                
                 b = random.randint(0,4)
+                question = ""
                 if a == 2 and b == 1:
-                    print("shi")
-                    continue
+                    question = "shi"
                 elif a == 3 and b == 1:
-                    print("chi")
-                    continue
+                    question = "chi"
                 elif a == 3 and b == 2:
-                    print("tsu")
-                    continue
+                    question = "tsu"
                 elif a == 5 and b == 2:
-                    print("fu")
-                    continue
+                    question = "fu"
                 elif a == 7 and (b == 1 or b == 3):
                     continue
-                elif a == 9 and (b > 0 and b < 4):
+                elif a == 9 and (0 < b < 4):
                     continue
                 else:
-                    print(self.word[a]+self.alpha[b])
+                    question = self.word[a]+self.alpha[b]
+                out = self.table[a*5+b]
+                
+                out_list = random.sample(self.table, 9)
+                if "" in out_list:
+                    out_list.remove("")
+                if out in out_list:
+                    out_list.remove(out)
+
+                out_list = random.sample(out_list, 3)
+
+                yield list([quetion, out, out_list])
         except KeyboardInterrupt:
             print("Shutting Down")
 

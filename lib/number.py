@@ -15,8 +15,6 @@ class MyNumber():
                 num = random.randint(1, 100000)
                 out = ""
 
-                print(num)
-
                 if num == 100000:
                     out = "じゅうまん"
                 elif (int)(num / 10000) > 0:
@@ -55,8 +53,9 @@ class MyNumber():
                 if num % 10 > 0:
                     out = out + self.std[(int) (num % 10)]
 
-                print(out)
+                yield list([str(num),out])
         except KeyboardInterrupt:
+            self.state = False
             print("Shutting Down")
 
     def stop(self):
