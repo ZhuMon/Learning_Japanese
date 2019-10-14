@@ -41,14 +41,12 @@ class FiftySymbol():
                 out = self.table[a*5+b]
                 
                 out_list = random.sample(self.table, 9)
-                if "" in out_list:
-                    out_list.remove("")
+                out_list = list(filter(lambda a: a != '', out_list))
                 if out in out_list:
                     out_list.remove(out)
-
                 out_list = random.sample(out_list, 3)
 
-                yield list([quetion, out, out_list])
+                yield list([question, out, out_list])
         except KeyboardInterrupt:
             print("Shutting Down")
 

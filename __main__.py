@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
+from functools import partial
+import random
 
 from lib.MyTime import MyTime
 from lib.number import MyNumber
@@ -30,7 +32,7 @@ class MainConsole(Frame):
         self.t_a_var = StringVar()
         a_label = Label(self.key_in_frame, textvariable=self.t_a_var)
         
-        enter_button = Button(self.key_in_frame, text = "Enter", command=self.test_compare)
+        enter_button = Button(self.key_in_frame, text = "Enter", command=self.test_key_in_compare)
         next_button = Button(self.key_in_frame, text = "Next", command=self.test_key_in_next)
 
         
@@ -42,7 +44,25 @@ class MainConsole(Frame):
 
         ######## choose frame ########
         self.choose_frame = Frame(self.cframe)
+        q_label = Label(self.choose_frame, textvariable=self.q_var)
         
+        self.a_ans_var = StringVar()
+        self.b_ans_var = StringVar()
+        self.c_ans_var = StringVar()
+        self.d_ans_var = StringVar()
+        a_button = Button(self.choose_frame, textvariable=self.a_ans_var, command=partial(self.test_choose_compare, self.a_ans_var))
+        b_button = Button(self.choose_frame, textvariable=self.b_ans_var, command=partial(self.test_choose_compare, self.b_ans_var))
+        c_button = Button(self.choose_frame, textvariable=self.c_ans_var, command=partial(self.test_choose_compare, self.c_ans_var))
+        d_button = Button(self.choose_frame, textvariable=self.d_ans_var, command=partial(self.test_choose_compare, self.d_ans_var))
+
+        next_button = Button(self.key_in_frame, text = "Next", command=self.test_choose_next)
+
+        q_label.pack()
+        a_button.pack()
+        b_button.pack()
+        c_button.pack()
+        d_button.pack()
+        next_button.pack()
 
     def create_menubar(self, level = None):
         bar = Frame(self, width=800)
@@ -92,19 +112,32 @@ class MainConsole(Frame):
         self.q_var.set(q)
         self.t_a_var.set("")
 
-    def test_compare(self):
-        if self.ans.replace(" ","") == self.myTime.a_var.get().replace(" ",""):
+    def test_key_in_compare(self):
+        if self.ans.replace(" ","") == self.a_var.get().replace(" ",""):
             self.t_a_var.set("True")
         else:
             self.t_a_var.set("False, the answer is "+self.ans)
 
-    def test_choose_next():
+    def test_choose_next(self):
         [q, self.ans, self.other_ans] = next(self.now_test.start())
 
         self.q_var.set(q)
         self.t_a_var.set("")
-        
-        
+        ans_list = self.other_ans+[self.ans]
+        random.shuffle(ans_list)
+        self.a_ans_var.set(ans_list[0])
+        self.b_ans_var.set(ans_list[1])
+        self.c_ans_var.set(ans_list[2])
+        self.d_ans_var.set(ans_list[3])
+
+
+    def test_choose_compare(self, ans):
+        if self.ans == ans.get():
+            self.t_a_var.set("True")
+        else:
+            self.t_a_var.set("False, the answer is "+self.ans)
+
+        self.test_choose_next()
 
     def clear_widget(self, level = None):
         if level < 2:
