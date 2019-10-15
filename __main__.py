@@ -55,7 +55,8 @@ class MainConsole(Frame):
         c_button = Button(self.choose_frame, textvariable=self.c_ans_var, command=partial(self.test_choose_compare, self.c_ans_var))
         d_button = Button(self.choose_frame, textvariable=self.d_ans_var, command=partial(self.test_choose_compare, self.d_ans_var))
 
-        next_button = Button(self.key_in_frame, text = "Next", command=self.test_choose_next)
+        next_button = Button(self.choose_frame, text = "Next", command=self.test_choose_next)
+        a_label = Label(self.choose_frame, textvariable=self.t_a_var)
 
         q_label.pack()
         a_button.pack()
@@ -63,6 +64,7 @@ class MainConsole(Frame):
         c_button.pack()
         d_button.pack()
         next_button.pack()
+        a_label.pack()
 
     def create_menubar(self, level = None):
         bar = Frame(self, width=800)
@@ -137,7 +139,7 @@ class MainConsole(Frame):
         else:
             self.t_a_var.set("False, the answer is "+self.ans)
 
-        self.test_choose_next()
+        # self.test_choose_next()
 
     def clear_widget(self, level = None):
         if level < 2:
