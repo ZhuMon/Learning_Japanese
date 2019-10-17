@@ -6,15 +6,22 @@ import random
 from lib.MyTime import MyTime
 from lib.number import MyNumber
 from lib.fifty_symbol import FiftySymbol
+from lib.remember_word import RememberWord
+from lib.get_data import DataBase
 
 class MainConsole(Frame):
     def __init__(self, parent = None):
         Frame.__init__(self, parent, width = 800, height=400)
 
+
+        self.word_db = DataBase("the_word.xlsx", "單字")
+        self.lessons = self.word_db.getLessons()
+        self.now_word_list = []
+        self.var_mode = StringVar() # a or b -> choose or key_in
+
+
         self.create_menubar("main")
         self.create_cframe()
-
-
         self.cframe.pack(fill="both")
         self.pack(fill="both")
 
@@ -66,6 +73,43 @@ class MainConsole(Frame):
         next_button.pack()
         a_label.pack()
 
+        ######## var frame ########
+        self.var_frame = Frame(self.cframe)
+        
+        # choose or key_in
+        r_choose = Radiobutton(self.var_frame, text="Choose", variable=self.var_mode, value="a")
+        r_key_in = Radiobutton(self.var_frame, text="Key In", variable=self.var_mode, value="b")
+        
+        # whether listen
+        self.v_listen = IntVar()
+        c_listen = Checkbutton(self.var_frame, text="Listen",variable=self.v_listen, onvalue=1, offvalue=0)
+
+        # lesson
+
+        combo = Combobox(self.var_frame, values = list(self.lessons.keys()))
+        combo.current(6)
+
+        def submit(combo):
+            self.var_frame.pack_forget()
+            self.now_word_list = self.word_db.getWords(combo.get())
+            self.now_test = RememberWord(word_list=self.now_word_list)
+            self.now_test.mode = self.var_mode.get()
+            self.now_test.listen = self.v_listen.get()
+            if self.var_mode.get() == "a":
+                self.choose_frame.pack()
+                self.test_choose_next()
+            elif self.var_mode.get() == "b":
+                self.key_in_frame.pack()
+                self.test_key_in_next()
+
+        submit = Button(self.var_frame, text="Submit", command=partial(submit, combo))
+
+        c_listen.pack()
+        r_choose.pack()
+        r_key_in.pack()
+        combo.pack()   
+        submit.pack()     
+
     def create_menubar(self, level = None):
         bar = Frame(self, width=800)
         buttons = []
@@ -90,21 +134,21 @@ class MainConsole(Frame):
         self.now_test = MyTime()
         self.test_key_in_next()
 
-        
-        
-
     def test_number(self):
+        self.clear_widget(2)
         self.key_in_frame.pack()
         self.now_test = MyNumber()
         self.test_key_in_next()
 
     def test_50_symbol(self):
+        self.clear_widget(2)
         self.choose_frame.pack()
         self.now_test = FiftySymbol()
         self.test_choose_next()
 
     def test_variable(self):
-        None
+        self.clear_widget(2)
+        self.var_frame.pack()
 
     def test_key_in_next(self):
         r = next(self.now_test.start())
@@ -131,7 +175,8 @@ class MainConsole(Frame):
         self.b_ans_var.set(ans_list[1])
         self.c_ans_var.set(ans_list[2])
         self.d_ans_var.set(ans_list[3])
-
+        
+        print("ans:",ans_list)
 
     def test_choose_compare(self, ans):
         if self.ans == ans.get():
@@ -142,8 +187,10 @@ class MainConsole(Frame):
         # self.test_choose_next()
 
     def clear_widget(self, level = None):
-        if level < 2:
+        if level == 2:
             self.key_in_frame.pack_forget()
+            self.choose_frame.pack_forget()
+            self.var_frame.pack_forget()
 
     def exit(self):
         self.myTime.stop()

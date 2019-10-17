@@ -5,17 +5,20 @@ import sys
 import json
 
 class RememberWord():
-    def __init__(self, word_list = None, num_word = 20):
+    def __init__(self, word_list = None):
         """
         word_list = [obj1, obj2, ...]
         obj1 = Word()
         Word.jp Word.ch Word.ks Word.n
         """
         self.word_list = word_list
-        self.num_word = num_word
+        self.num_word = len(word_list)
+        self.listen = True
+        self.state = False
 
-    def start(self, mode, listen):
-        if listen == True:
+    def start(self):
+        self.state = True
+        if self.listen == True:
             try:
                 web_id = open('id', 'r')
                 executor_url = ''
@@ -30,10 +33,11 @@ class RememberWord():
             except FileNotFoundError:
                 self.driver = jp_listen.openweb()
         
-        if mode == "a": # 選擇
-            self.choose()
-        elif mode == "b": # 問答
-            self.keyin() 
+        while self.state:
+            if self.mode == "a": # 選擇
+                yield next(self.choose())
+            elif self.mode == "b": # 問答
+                yield next(self.keyin())
 
     def choose(self): 
         """
@@ -48,9 +52,14 @@ class RememberWord():
         wrong_ans = []
 
         while self.state :
-            opt = random.sample(range(0, num_word), 4)
-            ans_num = random.sample(opt, 1)  # true answer
+            # true answer
+            ans_num = random.sample(range(0,self.num_word), 1)[0]  
             
+            # other option
+            opt = random.sample(range(0, self.num_word), 4)
+            if ans_num in opt:
+                opt.remove(ans_num)
+            opt = random.sample(opt, 3)
 
             # question is chinese or japanese or ks(漢字)
             ch_or_jp = random.randint(0, 2)    # 0,1,2: jp, ch, ks
@@ -61,7 +70,7 @@ class RememberWord():
             ans = self.word_list[ans_num].get(another)
 
             opt_list = [self.word_list[i].get(another) for i in opt]
-            yield [question, ans, opt_list]
+            yield list([question, ans, opt_list])
 
     def keyin(self):
         None
