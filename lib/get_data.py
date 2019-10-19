@@ -58,18 +58,22 @@ class PyxlData():
         word_list = []
         
         for i in range(2, self.ws.max_row+1):
+            # if the row is blank, break
+            if self.ws.cell(row=i, column=col_lesson+1).value == None:
+                break
             word = Word()
-            
+
             for j in range(col_lesson+1, next_lesson):
                 column_index = self.ws.cell(row=1, column=j).value
+                v = self.ws.cell(row=i, column=j).value
                 if column_index == "中文":
-                    word.ch = self.ws.cell(row=i, column=j).value
+                    word.ch = v
                 elif column_index == "平假名":
-                    word.jp = self.ws.cell(row=i, column=j).value
+                    word.jp = v
                 elif column_index == "漢字" or column_index == "漢字or英文":
-                    word.zh = self.ws.cell(row=i, column=j).value
+                    word.ks = v
                 elif column_index == "熟記程度":
-                    word.n  = int(self.ws.cell(row=i, column=j).value)
+                    word.n  = int(v)
             word_list.append(word)
 
         return word_list

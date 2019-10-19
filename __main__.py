@@ -18,6 +18,7 @@ class MainConsole(Frame):
         self.lessons = self.word_db.getLessons()
         self.now_word_list = []
         self.var_mode = StringVar() # a or b -> choose or key_in
+        self.var_mode.set("a")
 
 
         self.create_menubar("main")
@@ -176,7 +177,6 @@ class MainConsole(Frame):
         self.c_ans_var.set(ans_list[2])
         self.d_ans_var.set(ans_list[3])
         
-        print("ans:",ans_list)
 
     def test_choose_compare(self, ans):
         if self.ans == ans.get():
