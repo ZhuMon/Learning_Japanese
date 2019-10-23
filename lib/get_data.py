@@ -27,9 +27,10 @@ class XlwingsData():
 
 class PyxlData():
     def __init__(self, file_name, sheet):
-        wb = load_workbook(file_name)
+        self.file_name = file_name 
+        self.wb = load_workbook(self.file_name)
         #ws = wb.active
-        self.ws = wb.get_sheet_by_name(sheet)
+        self.ws = self.wb.get_sheet_by_name(sheet)
 
         self.lessons = self.getLessons() # {lesson1:1,lesson2:5...}
         self.word_list_set = {}
@@ -75,8 +76,25 @@ class PyxlData():
                 elif column_index == "熟記程度":
                     word.n  = int(v)
             word_list.append(word)
-
+        self.word_list_set[lesson] = word_list
         return word_list
+
+    def saveRememberTimes(self):
+        # find the column of remember_time
+        for lesson,col in self.lessons.items():
+            next_lesson = self.getNextLesson(col)
+            if self.word_list_set.__contains__(lesson):
+                for i in range(col, next_lesson):
+                    column_index = self.ws.cell(row=1, column=i).value
+                    if column_index == "熟記程度":
+                        for j in range(2, self.ws.max_row+1):
+                            self.ws.cell(row=j, column=i, value=self.word_list_set[lesson][j-2].n)
+                        break
+             
+
+    def quit(self):
+        self.saveRememberTimes()
+        self.wb.save(self.file_name)
 
 
 class DataBase():
@@ -94,6 +112,8 @@ class DataBase():
     def getWords(self, lesson):
         return self.xls.getWords(lesson)
 
+    def quit(self):
+        self.xls.quit()
 
 if __name__ == "__main__":
     db = DataBase("../the_word.xlsx", "單字")

@@ -83,10 +83,6 @@ def speak(driver, data, again, sleep_time):
             else:
                 break
 
-
-    
-    
-
 if __name__ == '__main__':
     driver = openweb()
     data = inputdata()

@@ -20,6 +20,8 @@ class MainConsole(Frame):
         self.var_mode = StringVar() # a or b -> choose or key_in
         self.var_mode.set("a")
 
+        self.now_test = None
+
 
         self.create_menubar("main")
         self.create_cframe()
@@ -181,8 +183,12 @@ class MainConsole(Frame):
     def test_choose_compare(self, ans):
         if self.ans == ans.get():
             self.t_a_var.set("True")
+            if type(self.now_test) == RememberWord:
+                self.now_test.update_times(self.ans, +1)
         else:
             self.t_a_var.set("False, the answer is "+self.ans)
+            if type(self.now_test) == RememberWord:
+                self.now_test.update_times(self.ans, -1)
 
         # self.test_choose_next()
 
@@ -193,7 +199,9 @@ class MainConsole(Frame):
             self.var_frame.pack_forget()
 
     def exit(self):
-        self.myTime.stop()
+        if self.now_test != None:
+            self.now_test.stop()
+        self.word_db.quit()
     
 
 if __name__ == "__main__":
@@ -205,4 +213,6 @@ if __name__ == "__main__":
     try:
         root.mainloop()
     except KeyboardInterrupt:
-        main.exit()
+        print("Shut Down")
+
+    main.exit()

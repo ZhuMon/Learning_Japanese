@@ -41,19 +41,18 @@ class RememberWord():
 
     def choose(self): 
         """
-        input:
-        q_num : number of questions : type: (int)
-
         return:
         [question, answer, [opt1, opt2, opt3, opt4]]
 
         """
-        t_num = 0 # true number
         wrong_ans = []
 
         while self.state :
             # true answer
             ans_num = random.sample(range(0,self.num_word), 1)[0]  
+            while self.word_list[ans_num].n > 4:
+                ans_num = random.sample(range(0,self.num_word), 1)[0]  
+                    
             
             # other option
             opt = random.sample(range(0, self.num_word), 4)
@@ -74,6 +73,16 @@ class RememberWord():
 
     def keyin(self):
         None
+
+    def update_times(self, text, value):
+        """ 
+            update word.n
+            value = +x or -x
+        """
+        for w in self.word_list:
+            if text in [w.jp, w.ch, w.ks]:
+                w.n += value
+                return
 
     def stop(self):
         self.state = False
